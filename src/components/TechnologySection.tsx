@@ -22,19 +22,30 @@ const TechnologySection = () => {
       });
   }, []);
 
-  const addToStack = (technology: Technology) => {
-    const alreadyAdded = stack.some(
-      (item) => item.id === technology.id
+const addToStack = (technology: Technology) => {
+  const alreadyAdded = stack.some(
+    (item) => item.id === technology.id
+  );
+
+  if (alreadyAdded) {
+    toast.warning(`${technology.name} is already in your stack!`);
+    return;
+  }
+
+  const sameCategory = stack.some(
+    (item) => item.category === technology.category
+  );
+
+  if (sameCategory) {
+    toast.warning(
+      `You already selected a ${technology.category} technology!`
     );
+    return;
+  }
 
-    if (alreadyAdded) {
-      toast.warning(`${technology.name} is already in your stack!`);
-      return;
-    }
-
-    setStack([...stack, technology]);
-    toast.success(`${technology.name} added to your stack!`);
-  };
+  setStack([...stack, technology]);
+  toast.success(`${technology.name} added to your stack!`);
+};
 
   const removeFromStack = (id: string) => {
     const technology = stack.find((item) => item.id === id);
