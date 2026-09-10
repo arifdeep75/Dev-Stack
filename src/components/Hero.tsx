@@ -8,7 +8,7 @@ const Hero = () => {
           <div>
             <h1 className="text-4xl md:text-5xl font-bold leading-[1.05] text-[#111827]">
               Build Your Ideal
-              <span className="block bg-linear-to-r from-orange-500 via-pink-500 to-violet-600 bg-clip-text text-transparent">
+              <span className="block gradient-text bg-clip-text text-transparent">
                 Development Stack
               </span>
             </h1>
@@ -21,7 +21,7 @@ const Hero = () => {
 
             {/* Buttons */}
             <div className="flex items-center gap-3 mt-8">
-              <button className="px-4 py-2 rounded-md text-xs md:text-sm font-medium text-white bg-linear-to-r from-orange-500 via-pink-500 to-violet-600 hover:opacity-90 transition">
+              <button className="px-4 py-2 rounded-md text-xs md:text-sm font-medium text-white gradient-primary hover:opacity-90 transition">
                 Explore Technologies
               </button>
 

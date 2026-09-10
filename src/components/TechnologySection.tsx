@@ -73,7 +73,7 @@ const addToStack = (technology: Technology) => {
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-[#111827]">
             Explore the{" "}
-            <span className="bg-linear-to-r from-orange-500 via-pink-500 to-violet-600 bg-clip-text text-transparent">
+            <span className="gradient-text bg-clip-text text-transparent">
               Technologies
             </span>
           </h2>
