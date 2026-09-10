@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import type { Technology } from "../types/technology";
 import TechnologyCard from "./TechnologyCard";
 import StackSidebar from "./StackSidebar";
+import Loading from "./Loading";
 
 const TechnologySection = () => {
   const [technologies, setTechnologies] = useState<Technology[]>([]);
@@ -22,30 +23,28 @@ const TechnologySection = () => {
       });
   }, []);
 
-const addToStack = (technology: Technology) => {
-  const alreadyAdded = stack.some(
-    (item) => item.id === technology.id
-  );
+  const addToStack = (technology: Technology) => {
+    const alreadyAdded = stack.some((item) => item.id === technology.id);
 
-  if (alreadyAdded) {
-    toast.warning(`${technology.name} is already in your stack!`);
-    return;
-  }
+    if (alreadyAdded) {
+      toast.warning(`${technology.name} is already in your stack!`);
+      return;
+    }
 
-  const sameCategory = stack.some(
-    (item) => item.category === technology.category
-  );
-
-  if (sameCategory) {
-    toast.warning(
-      `You already selected a ${technology.category} technology!`
+    const sameCategory = stack.some(
+      (item) => item.category === technology.category,
     );
-    return;
-  }
 
-  setStack([...stack, technology]);
-  toast.success(`${technology.name} added to your stack!`);
-};
+    if (sameCategory) {
+      toast.warning(
+        `You already selected a ${technology.category} technology!`,
+      );
+      return;
+    }
+
+    setStack([...stack, technology]);
+    toast.success(`${technology.name} added to your stack!`);
+  };
 
   const removeFromStack = (id: string) => {
     const technology = stack.find((item) => item.id === id);
@@ -69,7 +68,6 @@ const addToStack = (technology: Technology) => {
   return (
     <section id="technologies" className="bg-white">
       <div className="max-w-5xl mx-auto px-5 py-16">
-
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-[#111827]">
             Explore the{" "}
@@ -84,22 +82,15 @@ const addToStack = (technology: Technology) => {
         </div>
 
         {loading ? (
-          <div className="flex justify-center py-10">
-            <p className="text-sm text-slate-500">
-              Loading technologies...
-            </p>
-          </div>
+          <Loading />
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-
             <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {technologies.map((technology) => (
                 <TechnologyCard
                   key={technology.id}
                   technology={technology}
-                  isAdded={stack.some(
-                    (item) => item.id === technology.id
-                  )}
+                  isAdded={stack.some((item) => item.id === technology.id)}
                   onAdd={addToStack}
                 />
               ))}
@@ -112,10 +103,8 @@ const addToStack = (technology: Technology) => {
                 onRemoveAll={removeAll}
               />
             </div>
-
           </div>
         )}
-
       </div>
     </section>
   );
