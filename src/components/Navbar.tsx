@@ -9,7 +9,7 @@ const Navbar = () => {
             <img
               src="/images/logo-text.png"
               alt="Dev Stack"
-              className="w-[102px] h-auto"
+              className="w-25.5 h-auto"
             />
           </a>
 
@@ -57,7 +57,7 @@ const Navbar = () => {
               Sign In
             </button>
 
-            <button className="px-5 py-2 rounded-full text-xs font-medium text-white bg-gradient-to-r from-orange-500 via-pink-500 to-violet-600 hover:opacity-90 transition">
+            <button className="px-5 py-2 rounded-full text-xs font-medium text-white bg-linear-to-r from-orange-500 via-pink-500 to-violet-600 hover:opacity-90 transition">
               Sign Up
             </button>
           </div>
