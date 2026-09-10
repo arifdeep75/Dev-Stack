@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import type { Technology } from "../types/technology";
 import TechnologyCard from "./TechnologyCard";
+import StackSidebar from "./StackSidebar";
 
 const TechnologySection = () => {
   const [technologies, setTechnologies] = useState<Technology[]>([]);
+  const [stack, setStack] = useState<Technology[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -19,11 +22,43 @@ const TechnologySection = () => {
       });
   }, []);
 
+  const addToStack = (technology: Technology) => {
+    const alreadyAdded = stack.some(
+      (item) => item.id === technology.id
+    );
+
+    if (alreadyAdded) {
+      toast.warning(`${technology.name} is already in your stack!`);
+      return;
+    }
+
+    setStack([...stack, technology]);
+    toast.success(`${technology.name} added to your stack!`);
+  };
+
+  const removeFromStack = (id: string) => {
+    const technology = stack.find((item) => item.id === id);
+
+    setStack(stack.filter((item) => item.id !== id));
+
+    if (technology) {
+      toast.info(`${technology.name} removed from your stack!`);
+    }
+  };
+
+  const removeAll = () => {
+    if (stack.length === 0) {
+      return;
+    }
+
+    setStack([]);
+    toast.info("All technologies removed from your stack!");
+  };
+
   return (
     <section id="technologies" className="bg-white">
       <div className="max-w-5xl mx-auto px-5 py-16">
 
-        {/* Heading */}
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-[#111827]">
             Explore the{" "}
@@ -37,7 +72,6 @@ const TechnologySection = () => {
           </p>
         </div>
 
-        {/* Loading */}
         {loading ? (
           <div className="flex justify-center py-10">
             <p className="text-sm text-slate-500">
@@ -45,37 +79,27 @@ const TechnologySection = () => {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
 
-            {/* Technology Cards */}
             <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {technologies.map((technology) => (
                 <TechnologyCard
                   key={technology.id}
                   technology={technology}
+                  isAdded={stack.some(
+                    (item) => item.id === technology.id
+                  )}
+                  onAdd={addToStack}
                 />
               ))}
             </div>
 
-            {/* Your Stack */}
             <div className="lg:col-span-1">
-              <div className="border border-slate-100 rounded-xl p-4 shadow-sm">
-
-                <h3 className="text-sm font-semibold text-slate-800">
-                  Your Stack
-                </h3>
-
-                <p className="mt-1 text-[10px] text-slate-400">
-                  No technologies selected yet.
-                </p>
-
-                <div className="mt-3 h-24 border border-dashed border-slate-200 rounded-lg flex items-center justify-center">
-                  <p className="text-[10px] text-slate-400">
-                    Your stack is empty.
-                  </p>
-                </div>
-
-              </div>
+              <StackSidebar
+                stack={stack}
+                onRemove={removeFromStack}
+                onRemoveAll={removeAll}
+              />
             </div>
 
           </div>
